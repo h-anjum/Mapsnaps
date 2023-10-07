@@ -18,27 +18,36 @@ class PlacesListScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: Consumer<GreatPlaces>(
-  builder: (ctx, greatPlaces, ch) {
-    return greatPlaces.items.isEmpty
-        ? Center(child: const Text('Got no place yet, Start adding some!'))
-        : ListView.builder(
-            itemCount: greatPlaces.items.length,
-            itemBuilder: (ctx, i) => ListTile(
-              leading: CircleAvatar(
-                backgroundImage: FileImage(
-                  greatPlaces.items[i].image,
-                ),
+      body: FutureBuilder(
+        future: Provider.of<GreatPlaces>(context, listen: false)
+            .fetchAndSetPlaces(),
+        builder: (ctx, snapshot) => snapshot.connectionState == ConnectionState.waiting
+            ? Center(
+                child: CircularProgressIndicator(),
+              )
+            : Consumer<GreatPlaces>(
+                builder: (ctx, greatPlaces, ch) {
+                  return greatPlaces.items.isEmpty
+                      ? Center(
+                          child: const Text(
+                              'Got no place yet, Start adding some!'))
+                      : ListView.builder(
+                          itemCount: greatPlaces.items.length,
+                          itemBuilder: (ctx, i) => ListTile(
+                            leading: CircleAvatar(
+                              backgroundImage: FileImage(
+                                greatPlaces.items[i].image,
+                              ),
+                            ),
+                            title: Text(greatPlaces.items[i].title),
+                            onTap: () {
+                              // Handle the onTap action here
+                            },
+                          ),
+                        );
+                },
               ),
-              title: Text(greatPlaces.items[i].title),
-              onTap: () {
-                // Handle the onTap action here
-              },
-            ),
-          );
-  },
-),
-
+      ),
     );
   }
 }

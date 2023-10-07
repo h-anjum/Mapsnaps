@@ -31,7 +31,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add a new pace'),
+        title: Text('Add a new place'),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
